@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 fastapi = "*"
 uvicorn = "*"
+sqlmodel = "*"
+psycopg = {extras = ["binary"], version = "*"}
+psycopg2 = "*"
 
 [dev-packages]
 
@@ -14,3 +17,4 @@ python_version = "3.9"
 
 [scripts]
 server = "uvicorn src.main:app --reload --port 8000"
+create_database = "python src/scripts/create_database.py"

@@ -7,10 +7,11 @@ COPY Pipfile Pipfile.lock ./
 RUN pip install --no-cache-dir pipenv && \
     pipenv install --deploy --ignore-pipfile
 
-COPY /src ./src
+COPY /src .
 
 EXPOSE 8000 
 
-CMD ["pipenv", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
 
 
