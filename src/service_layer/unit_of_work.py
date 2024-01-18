@@ -15,8 +15,10 @@ class AbstractUnitOfWork(ABC):
     def __exit__(self, *args):
         self.rollback()
 
-    def commit(self):
-        self._commit()
+    @abstractmethod
+    def add():
+        raise NotImplementedError
+        
 
     def collect_new_events(self):
         for product in self.products.seen:
@@ -24,7 +26,7 @@ class AbstractUnitOfWork(ABC):
                 yield product.events.pop(0)
 
     @abstractmethod
-    def _commit(self):
+    def commit(self):
         raise NotImplementedError
 
     @abstractmethod
@@ -42,15 +44,20 @@ class SqlModelProductUnityOfWork(AbstractUnitOfWork):
         self.session_factory = session_factory
 
     def __enter__(self):
-        self.session = self.session_factory()
-        self.products = SQLModelProductRepository(self.session)
+        self.session = self.session_factory
+        self.product = SQLModelProductRepository(self.session)
+        return self 
 
     def __exit__(self, *args):
-        super().__exit__(*args)
         self.session.close()
 
-    def _commit(self):
+    def commit(self):
         self.session.commit()
 
+    def add(self, product):
+        repository_instance = SQLModelProductRepository(self.session)
+        repository_instance.add(product=product)
+        
     def rollback(self):
         self.session.rollback()
+

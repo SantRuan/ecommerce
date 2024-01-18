@@ -1,16 +1,23 @@
 
 import logging
 
-from adapters.orm.product import products
+from adapters.orm.tables import products, mapper_registry
 from domain.models.product import Product
-from sqlalchemy.orm import registry
+from sqlalchemy import create_engine
 
+import config
 
 logger = logging.getLogger(__name__)
 
-mapper_registry = registry()
+
 
 def start_mappers():
     logger.info("Starting Mapper")
+    
+    mapper_registry.map_imperatively(Product, products)
 
-    product_mapper = mapper_registry.map_imperatively(Product, products)
+def create_tables():
+    mapper_registry.metadata.create_all(bind=create_engine(
+        config.get_postgres_uri(),
+        isolation_level="REPEATABLE READ",
+    ))    
