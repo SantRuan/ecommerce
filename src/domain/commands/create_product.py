@@ -4,7 +4,6 @@ from .command import Command
 
 
 @dataclasses.dataclass
-class Allocate(Command):
+class CreateProduct(Command):
     sku: str
-    name: str
     quantity: int

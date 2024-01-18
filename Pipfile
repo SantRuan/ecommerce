@@ -9,6 +9,7 @@ uvicorn = "*"
 sqlmodel = "*"
 psycopg = {extras = ["binary"], version = "*"}
 psycopg2 = "*"
+alembic = "*"
 
 [dev-packages]
 

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from domain.models.product import Product
-
+from adapters.orm.tables import products
 
 class AbstractRepository(ABC):
 
@@ -23,3 +23,6 @@ class SQLModelProductRepository(AbstractRepository):
 
     def get(self, sku):
         return self.session.query(Product).filter_by(sku=sku).first()
+
+    def get_by_id(self, id):
+        return self.session.query(products).filter_by(id).first()

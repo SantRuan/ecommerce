@@ -4,6 +4,7 @@ from adapters.orm.repository import AbstractRepository, SQLModelProductRepositor
 from sqlmodel import create_engine, SQLModel, Session
 from scripts import create_database
 import config
+from domain.models.product import Product
 
 
 class AbstractUnitOfWork(ABC):
@@ -61,3 +62,5 @@ class SqlModelProductUnityOfWork(AbstractUnitOfWork):
     def rollback(self):
         self.session.rollback()
 
+    def get_by_id(self, id):
+        return self.session.query(Product).filter_by(id=id).first()
